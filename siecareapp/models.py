@@ -17,7 +17,7 @@ from django.db.models import Count
 from django_mysql.models import ListCharField,ListTextField
 from django.db.models import CharField, Model,TextField
 import MySQLdb
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response,redirect
 
 class Daycare(models.Model):
     name =models.CharField(max_length=255,default= 'NULL')
@@ -27,5 +27,8 @@ class Daycare(models.Model):
     def __str__(self):
         return self.name
 
-# class 
+class Policies(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     

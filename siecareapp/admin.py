@@ -24,8 +24,8 @@ import MySQLdb
 from siecareapp.views import index
 from django_mysql.models import ListF
 from openpyxl import load_workbook
-from django.shortcuts import render
-from siecareapp.models import Daycare
+from django.shortcuts import render,render_to_response,redirect
+from siecareapp.models import Daycare,Policies
 from django.core.exceptions import ValidationError
 import requests
 from import_export import resources
@@ -101,4 +101,47 @@ class DaycareAdmin(ImportExportModelAdmin,ExportCsvMixin):
        
     #     qs =Daycare.objects.all()
 
+class PoliciesResource(resources.ModelResource):
+
+    class Meta:
+        model = Policies
+        skip_unchanged = True
+        report_skipped = True
+
+class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
+    # change_form_template = "admin/policies/change_form.html"
+    document = models.FileField(upload_to='documents/')
+    list_display = ('description','document',)
+    list_filter = ('description','document',)
+  
+  
+  
+    readonly_fields = ["'description','document'"]
+   
+    # def has_add_permission(self, request, obj=None):
+    #    return False
+    # def has_delete_permission(self, request, obj=None):
+    #    return False
+
+    # def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+    #     extra_context = extra_context or {}
+    #     extra_context['show_save_and_continue'] = False
+        
+    #     return super(PartslistAdmin, self).changeform_view(request, object_id, extra_context=extra_context)
+   
+    # def response_change(self, request, obj):
+        
+    #     if "_download_document" in request.POST:
+    #         partlist_component=[]
+    #         partlist_component1=[]
+    #         eccn_col=0
+    #         col_num=0
+    #         a=self.get_queryset(request).filter(document=obj).values_list('id')
+    #         filename = object_name.file.name.split('/')[-1]
+    #         response = HttpResponse(object_name.file, content_type='text/plain')
+    #         response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    #         return response
+
 admin.site.register(Daycare,DaycareAdmin)
+admin.site.register(Policies)
