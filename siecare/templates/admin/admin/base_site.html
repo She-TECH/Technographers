@@ -5,10 +5,10 @@
 
 
 
-{% block title %}{{ title }} | {{ site_title|default:_('SIE CARE') }}{% endblock %}
+{% block head_title_base %}{% if SITE_NAME %}{{ SIE CARE }} | {% endif %}{% block head_title %}{% endblock %}{% endblock %}
 {% block extrastyle %}
 <style>
-body.login{ background-image: url('/static/images/2910.png')!important; }
+body.login{ background-image: url('/static/images/2910.png') !important; }
 .login #container { top:200px; }
 </style>
 

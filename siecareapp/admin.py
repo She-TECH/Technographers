@@ -24,8 +24,8 @@ import MySQLdb
 from siecareapp.views import index
 from django_mysql.models import ListF
 from openpyxl import load_workbook
-from django.shortcuts import render
-from siecareapp.models import Daycare,Policies,TechnicalDocument
+from django.shortcuts import render,render_to_response,redirect
+from siecareapp.models import Daycare,Policies,Project_updates,TechnicalDocument
 from django.conf import settings
 from django.core.exceptions import ValidationError
 import requests
@@ -115,15 +115,15 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
     # document = models.FileField(upload_to='documents/')
     list_display = ('description','document',)
     list_filter = ('description','document',)
-    list_per_page=10
-    actions = ["export_as_csv"]
-    # # export_
-    search_fields = ('description')
   
+  
+  
+    # readonly_fields = ["'description','document'"]
+   
     def has_add_permission(self, request, obj=None):
-       return True
+       return False
     def has_delete_permission(self, request, obj=None):
-       return True
+       return False
 
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
         extra_context = extra_context or {}
@@ -139,9 +139,9 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
             print(a)
             
             fs = FileSystemStorage()
-            
+
             path = 'understand_limitation.docx'
-            file_path = "C:\\Users\\Karishma Mahajan\\Desktop\\Technographers\\documents\\understand_limitation.docx"
+            file_path = "C:\\Users\\z003tdhk\\clearing\\siecare\\documents\\understand_limitation.docx"
             
             if os.path.exists(file_path):
                 with open(file_path, 'rb') as fh:
@@ -154,6 +154,7 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
           
         return super().response_change(request, obj)
 
+
 class TechnicalDocumentResource(resources.ModelResource):
 
     class Meta:
@@ -162,14 +163,14 @@ class TechnicalDocumentResource(resources.ModelResource):
         report_skipped = True
 
 class TechnicalDocumentAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
-    technical_document_template = "admin/TechnicalDocument/technical_document.html"
+    change_form_template = "admin/TechnicalDoc/change_form.html"
     list_display = ('document_description','document',)
     list_filter = ('document_description','document',)
     list_per_page=10
-    export_order = ('document_description')
+    export_order = ('document_description',)
     actions = ["export_as_csv"]
     # # export_
-    search_fields = ('document_description')
+    search_fields = ('document_description',)
    
     def has_add_permission(self, request, obj=None):
        return True
@@ -184,15 +185,15 @@ class TechnicalDocumentAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
    
     def response_change(self, request, obj):
         
-        if "_download_technical_doc" in request.POST:
+        if "_download_document" in request.POST:
             
-            a=self.get_queryset(request).filter(description=obj).values_list('id')
+            a=self.get_queryset(request).filter(document_description=obj).values_list('id')
             print(a)
             
             fs = FileSystemStorage()
             
             path = 'understand_limitation.docx'
-            file_path = "C:\\Users\\Karishma Mahajan\\Desktop\\Technographers\\documents\\understand_limitation.docx"
+            file_path = "C:\\Users\\z003tdhk\\clearing\\siecare\\documents\\understand_limitation.docx"
             
             if os.path.exists(file_path):
                 with open(file_path, 'rb') as fh:
@@ -204,8 +205,71 @@ class TechnicalDocumentAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
             
           
         return super().response_change(request, obj)
+		
+
+class ProjectResource(resources.ModelResource):
+
+    class Meta:
+        model = Project_updates
+        skip_unchanged = True
+        report_skipped = True
+
+class ProjectUpdateAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
+    change_form_template = "admin/Policies/change_form.html"
+    # document = models.FileField(upload_to='documents/')
+    list_display = ('project_name','department','information')
+    list_filter = ('project_name','department',)
+    list_per_page=10
+    # list_display = ('name','location',)
+    # list_filter = ['location','segment',]
+    export_order = ('name','location','segment',)
+    actions = ["export_as_csv"]
+    # # export_
+    search_fields = ('project_name','department','information',)
+  
+  
+  
+    # readonly_fields = ["'description','document'"]
+   
+    def has_add_permission(self, request, obj=None):
+       return True
+    def has_delete_permission(self, request, obj=None):
+       return True
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['show_save_and_continue'] = True
+        
+        return super(ProjectUpdateAdmin, self).changeform_view(request, object_id, extra_context=extra_context)
+   
+    # def response_change(self, request, obj):
+        
+    #     if "_download_document" in request.POST:
+            
+    #         a=self.get_queryset(request).filter(department=obj).values_list('project_name')
+    #         print(a)
+
+
+            
+    #         fs = FileSystemStorage()
+
+    #         path = 'understand_limitation.docx'
+    #         file_path = "C:\\Users\\z003tdhk\\clearing\\siecare\\documents\\understand_limitation.docx"
+            
+    #         if os.path.exists(file_path):
+    #             with open(file_path, 'rb') as fh:
+    #                 response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+    #                 response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+    #                 return response
+          
+    #         print(file_path)
+            
+          
+        # return super().response_change(request, obj)
+
 
 
 admin.site.register(Daycare,DaycareAdmin)
 admin.site.register(Policies,PoliciesAdmin)
+admin.site.register(Project_updates,ProjectUpdateAdmin)
 admin.site.register(TechnicalDocument,TechnicalDocumentAdmin)

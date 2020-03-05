@@ -1,0 +1,29 @@
+
+{% extends 'admin/change_form.html' %}
+{% block submit_buttons_bottom %}
+
+{{ block.super }}
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    
+</head>
+<body>
+ 
+        
+ 
+   <div class="submit-row">
+    <input type="hidden" value="" name="document_id">
+    
+    <input type="submit" value="Dowload Document" name="_download_document">
+
+    <!-- <input type="submit" value="view components of Partlist" name="component"> -->
+    
+    </div>
+</body>
+
+        
+        
+{% endblock %}
+
+
+
