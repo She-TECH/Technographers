@@ -24,7 +24,7 @@ import MySQLdb
 from siecareapp.views import index
 from django_mysql.models import ListF
 from openpyxl import load_workbook
-from django.shortcuts import render,render_to_response,redirect
+from django.shortcuts import render
 from siecareapp.models import Daycare,Policies
 from django.core.exceptions import ValidationError
 import requests

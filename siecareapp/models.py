@@ -17,7 +17,7 @@ from django.db.models import Count
 from django_mysql.models import ListCharField,ListTextField
 from django.db.models import CharField, Model,TextField
 import MySQLdb
-from django.shortcuts import render,render_to_response,redirect
+from django.shortcuts import render
 
 class Daycare(models.Model):
     name =models.CharField(max_length=255,default= 'NULL')
