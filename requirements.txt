@@ -28,7 +28,7 @@ django-mysql==2.4.1
 django-nvd3==0.9.7
 django-rest-serializer-field-permissions==2.0.0
 django-tables2==2.0.3
-djangorestframework==3.9.0
+djangorestframework==3.9.1
 et-xmlfile==1.0.1
 flake8==3.6.0
 Flask==1.1.1
