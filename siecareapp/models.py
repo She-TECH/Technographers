@@ -51,3 +51,11 @@ class TechnicalDocument(models.Model):
 
     def __str__(self):
         return self.document_description
+class Female_count(models.Model):
+    females = models.CharField(max_length= 400,default='',blank=True,null=True) 
+    
+    def __str__(self):
+        # print(self.partlist_name)
+        # for s in a:
+        
+        return self.females

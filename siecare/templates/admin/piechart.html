@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block content %}
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        var data_from_view = "{{responses_pie}}";
+        var data_from_view1 = "{{responses_pie1}}";
+        var i;
+        var Y = [];
+        //  = []
+        var final_data=JSON.parse(data_from_view.replace(/&#39;/g,'"'));
+        var final_data1=JSON.parse(data_from_view1.replace(/&#39;/g,'"'));
+        // for(i=0;i<=6;i++)
+        // {
+        console.log(final_data);
+        console.log(final_data1);
+        $(function () {
+        $('#chart_container').highcharts({
+        chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Piechart depicting ECCN of all Third Party System Softwares'
+    },
+    title1: {
+        text: 'Piechart depicting ECCN of all Third Party System Softwares'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+
+                
+            }
+            
+        }
+    },
+    showInLegend : true,
+    credits: {
+                    enabled: false
+                },
+    series: [{
+        name: 'ECCN',
+        colorByPoint: true,
+        data: final_data
+    }]
+        });
+        });
+        // }
+    </script>
+    <div id="chart_container" style="height: 450px"></div>
+</body>
+{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">  
+</a></h1>
+{% endblock %}

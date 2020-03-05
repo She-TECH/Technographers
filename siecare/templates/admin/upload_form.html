@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load admin_urls %}
+
+
+
+{% block content %}
+<form action="{{ request.build_absolute_uri }}upload/" enctype="multipart/form-data"  method="post">
+    
+<div class="object-tools">
+        <a href='http://127.0.0.1:8000/admin/new/partlist/' class="btn btn-high btn-success">Back</a>
+    </div>
+    <table>
+
+        {{ form.as_table }}
+    </table>
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+</form>
+
+<ul class="messages">
+    {% for message in messages %}
+    
+    {% endfor %}
+</ul>
+
+{% endblock %}
