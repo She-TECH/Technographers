@@ -1,3 +1,6 @@
 .vBigIntegerField {
     width: 20em;
 }
+body.login {
+    background-image: url(../images/2910.png);
+}

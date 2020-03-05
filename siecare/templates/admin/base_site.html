@@ -1,22 +1,23 @@
-{% extends "admin/base.html" %}
+
 {% load staticfiles%}
-
-
-
-
+{% extends "admin/base_site.html" %}
+<!-- {% load staticfiles%} -->
 
 {% block title %}{{ title }} | {{ site_title|default:_('SIE CARE') }}{% endblock %}
-{% block extrastyle %}
+
+<!-- {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}" />{% endblock %} -->
+
+
+<!-- <!-- {% block extrastyle %} -->
 <style>
-body.login{ background-image: url('/static/images/2910.png')!important; }
-.login #container { top:200px; }
+    #header{ font-size: 100px; background-color: #a67d3d; border-bottom: solid 3px #f5deb3; }
+    body.login {
+        background-image: url(../images/2910.png);
+        background: yellow !important;
+    }
 </style>
+{% endblock %} -->
 
-
-{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "static/css/admin-extra.css" %}" />
-
-
-{% endblock %}
 
 
 
