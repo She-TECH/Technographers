@@ -25,9 +25,9 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-admin.sites.AdminSite.site_header = 'Sie Care'
-admin.sites.AdminSite.site_title = 'Sie Care'
-admin.sites.AdminSite.index_title = 'Sie Care'
+admin.sites.AdminSite.site_header = 'SIE CARE'
+admin.sites.AdminSite.site_title = 'SIE CARE'
+admin.sites.AdminSite.index_title = 'SIE CARE'
 admin.sites.AdminSite.site_url = '' 
 
 urlpatterns = [

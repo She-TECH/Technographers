@@ -5,7 +5,7 @@
 
 
 
-{% block title %}{{ title }} | {{ site_title|default:_('Sie Care') }}{% endblock %}
+{% block title %}{{ title }} | {{ site_title|default:_('SIE CARE') }}{% endblock %}
 {% block extrastyle %}
 <style>
 body.login{ background-image: url('/static/images/2910.png')!important; }
@@ -21,7 +21,7 @@ body.login{ background-image: url('/static/images/2910.png')!important; }
 
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Sie Care') }}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('SIE CARE') }}
 <link rel="stylesheet" href="{% static 'css/admin.css' %}">  
 </a></h1>
 {% endblock %}
