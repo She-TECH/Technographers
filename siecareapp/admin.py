@@ -24,8 +24,8 @@ import MySQLdb
 from siecareapp.views import index
 from django_mysql.models import ListF
 from openpyxl import load_workbook
-from django.shortcuts import render,render_to_response,redirect
-from siecareapp.models import Daycare,Policies
+from django.shortcuts import render
+from siecareapp.models import Daycare,Policies,TechnicalDocument
 from django.conf import settings
 from django.core.exceptions import ValidationError
 import requests
@@ -115,15 +115,15 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
     # document = models.FileField(upload_to='documents/')
     list_display = ('description','document',)
     list_filter = ('description','document',)
+    list_per_page=10
+    actions = ["export_as_csv"]
+    # # export_
+    search_fields = ('description')
   
-  
-  
-    # readonly_fields = ["'description','document'"]
-   
     def has_add_permission(self, request, obj=None):
-       return False
+       return True
     def has_delete_permission(self, request, obj=None):
-       return False
+       return True
 
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
         extra_context = extra_context or {}
@@ -141,7 +141,7 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
             fs = FileSystemStorage()
             
             path = 'understand_limitation.docx'
-            file_path = "C:\\Users\\z003tdhk\\clearing\\siecare\\documents\\understand_limitation.docx"
+            file_path = "C:\\Users\\Karishma Mahajan\\Desktop\\Technographers\\documents\\understand_limitation.docx"
             
             if os.path.exists(file_path):
                 with open(file_path, 'rb') as fh:
@@ -154,5 +154,58 @@ class PoliciesAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
           
         return super().response_change(request, obj)
 
+class TechnicalDocumentResource(resources.ModelResource):
+
+    class Meta:
+        model = TechnicalDocument
+        skip_unchanged = True
+        report_skipped = True
+
+class TechnicalDocumentAdmin(admin.ModelAdmin,CSSAdminMixin, ExportCsvMixin):
+    technical_document_template = "admin/TechnicalDocument/technical_document.html"
+    list_display = ('document_description','document',)
+    list_filter = ('document_description','document',)
+    list_per_page=10
+    export_order = ('document_description')
+    actions = ["export_as_csv"]
+    # # export_
+    search_fields = ('document_description')
+   
+    def has_add_permission(self, request, obj=None):
+       return True
+    def has_delete_permission(self, request, obj=None):
+       return True
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['show_save_and_continue'] = False
+        
+        return super(TechnicalDocumentAdmin, self).changeform_view(request, object_id, extra_context=extra_context)
+   
+    def response_change(self, request, obj):
+        
+        if "_download_technical_doc" in request.POST:
+            
+            a=self.get_queryset(request).filter(description=obj).values_list('id')
+            print(a)
+            
+            fs = FileSystemStorage()
+            
+            path = 'understand_limitation.docx'
+            file_path = "C:\\Users\\Karishma Mahajan\\Desktop\\Technographers\\documents\\understand_limitation.docx"
+            
+            if os.path.exists(file_path):
+                with open(file_path, 'rb') as fh:
+                    response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+                    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                    return response
+          
+            print(file_path)
+            
+          
+        return super().response_change(request, obj)
+
+
 admin.site.register(Daycare,DaycareAdmin)
 admin.site.register(Policies,PoliciesAdmin)
+admin.site.register(TechnicalDocument,TechnicalDocumentAdmin)
