@@ -65,7 +65,7 @@ pandas-profiling==1.4.2
 path.py==4.4
 pkginfo==1.4.2
 plumbum==1.4.2
-protobuf==3.9.1
+protobuf==3.15.0
 pycodestyle==2.4.0
 pycparser==2.19
 pyecharts-jupyter-installer==0.0.3
